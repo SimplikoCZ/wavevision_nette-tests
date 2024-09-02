@@ -2,12 +2,14 @@
 
 namespace Wavevision\NetteTests\TestCases\Parts;
 
+use Nette\Application\AbortException;
 use Nette\Application\Request;
 use Nette\Application\Responses\FileResponse;
 use Nette\Application\Responses\ForwardResponse;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Application\Responses\RedirectResponse;
 use Nette\Application\Responses\TextResponse;
+use Nette\Application\Responses\VoidResponse;
 use Nette\Application\UI\Presenter;
 use PHPUnit\Framework\Assert;
 use Wavevision\NetteTests\InvalidState;
@@ -116,11 +118,15 @@ trait PresenterAsserts
 		);
 	}
 
-	protected function runPresenter(PresenterRequest $presenterRequest): PresenterResponse
-	{
-		$this->presenters->setup($presenterRequest);
-		return $this->presenters->run($presenterRequest);
-	}
+    protected function runPresenter(PresenterRequest $presenterRequest): PresenterResponse
+    {
+        $this->presenters->setup($presenterRequest);
+        try {
+            return $this->presenters->run($presenterRequest);
+        } catch (AbortException $e) {
+            return new PresenterResponse($presenterRequest, new VoidResponse());
+        }
+    }
 
 	private function failWithInvalidResponseType(string $expected): void
 	{
