@@ -2,6 +2,7 @@
 
 namespace Wavevision\NetteTests\Mocks;
 
+use Nette\Http\FileUpload;
 use Nette\Http\Request;
 use Nette\Http\UrlScript;
 use Wavevision\DIServiceAnnotation\DIService;
@@ -89,7 +90,7 @@ class RequestMock extends Request
 	/**
 	 * @return mixed
 	 */
-	public function getPost(?string $key = null)
+	public function getPost(?string $key = null): mixed
 	{
 		if ($key === null) {
 			return $this->postMock;
@@ -101,7 +102,7 @@ class RequestMock extends Request
 	/**
 	 * @return mixed
 	 */
-	public function getQuery(?string $key = null)
+	public function getQuery(?string $key = null): mixed
 	{
 		if ($this->queryMock === null) {
 			if ($key === null) {
@@ -139,18 +140,18 @@ class RequestMock extends Request
 	}
 
 	/**
-	 * @param mixed $name
-	 * @return mixed
+	 * @param string $key
+	 * @return FileUpload|null
 	 */
-	public function getFile($name)
+	public function getFile($key): ?FileUpload
 	{
-		return isset($this->getFiles()[$name]) ? $this->getFiles()[$name] : null;
+		return isset($this->getFiles()[$key]) ? $this->getFiles()[$key] : null;
 	}
 
 	/**
-	 * @param mixed $header
+	 * @param string $header
 	 */
-	public function getHeader($header): ?string
+	public function getHeader(string $header): ?string
 	{
 		if ($this->headersMock === null) {
 			parent::getHeader($header);

@@ -26,18 +26,8 @@ jobs:
       - name: Setup Php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8
-      - name: Setup composer cache
-        id: composercache
-        run: echo ::set-output name=dir::$(composer config cache-files-dir)
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composercache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-      - name: Setup PCOV
-        run: pecl install pcov
+          php-version: 8.5
+          extensions: pcov
       - name: Install dependencies
         run: composer install
       - name: CI
