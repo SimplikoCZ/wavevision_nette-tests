@@ -1,5 +1,5 @@
 {
-  "name": "wavevision/nette-tests",
+  "name": "simplikocz/nette-tests",
   "description": "PHPUnit extension for testing Nette applications.",
   "type": "library",
   "authors": [
